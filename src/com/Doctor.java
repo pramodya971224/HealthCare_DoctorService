@@ -43,9 +43,12 @@ public class Doctor {
 			preparedStmt.execute();
 			con.close();
 
-			output = "Inserted Doctor Successfully";
+			String newDoc = readDoctors();
+			output = "{\"status\":\"success\", \"data\": \"" +
+					newDoc + "\"}";
+			
 		} catch (Exception e) {
-			output = "Error while inserting the doctor.";
+			output = "{\"status\":\"error\", \"data\":\"Error while inserting the Doctor.\"}";
 			System.err.println(e.getMessage());
 		}
 
@@ -86,19 +89,19 @@ public class Doctor {
 	        preparedStmt.execute();    
 	        con.close(); 
 	 
-	        output = "Updated doctor successfully";   
+	        String newDoc = readDoctors();
+			output = "{\"status\":\"success\", \"data\": \""
+	        + newDoc + "\"}";  
 	    }   
 		catch (Exception e)   
 		{    
-			output = "Error while updating the Doctor";    
-			System.err.println(e.getMessage());   
+			output = "{\"status\":\"error\", \"data\":\"Error while updating the Doctor.\"}";
+			System.err.println(e.getMessage()); 
 		} 
 	 
 	    return output;  
 	}
 	
-	
-
 	public String deleteDoctor(String d_id) {
 		String output = null;
 		try (Connection con = DBConnector.getConnection()) {
@@ -111,10 +114,13 @@ public class Doctor {
 
 				preparedStmt.execute();
 				con.close();
-				output = "Deleted doctor Successfully";
+				
+				String newDoc = readDoctors();
+				output = "{\"status\":\"success\", \"data\": \"" 
+							+ newDoc + "\"}";
 			}
 		} catch (Exception e) {
-			output = "Error while deleting Doctor";
+			output = "{\"status\":\"error\", \"data\":\"Error while deleting the Doctor.\"}";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -130,7 +136,7 @@ public class Doctor {
 			}
 
 			// Prepare the html table to be displayed
-			output = "<table border=\"1\"><tr><th>D_NIC</th><th>D_fname</th><th>D_lanme</th><th>D_email</th><th>D_gender</th><th>Liscen_No</th><th>D_specialization</th><th>D_phone</th><th>D_charge</th><th>Update</th><th>Remove</th></tr>";
+			output = "<table border='1'><tr><th>D_NIC</th><th>D_fname</th><th>D_lanme</th><th>D_email</th><th>D_gender</th><th>Liscen_No</th><th>D_specialization</th><th>D_phone</th><th>D_charge</th><th>Update</th><th>Remove</th></tr>";
 
 			String query = "SELECT * FROM doctor";
 			Statement stmt = con.createStatement();
@@ -151,8 +157,8 @@ public class Doctor {
 				
 
 				// Add into the html table
-				output += "<tr><td><input id=\"hidDocIDUpdate\" name=\"hidDocIDUpdate\" type=\"hidden\" value=\""
-						+ id + "\">" + nic + "</td>";
+				output += "<tr><td><input id='hidDocIDUpdate' name='hidDocIDUpdate' type='hidden'"
+						+ "value='" + id + "'>" + nic + "</td>";
 				output += "<td>" + fname + "</td>";
 				output += "<td>" + lname + "</td>";
 				output += "<td>" + email + "</td>";
@@ -164,11 +170,13 @@ public class Doctor {
 			
 
 					// buttons
-					output += "<td><input name=\"btnUpdate\" type=\"button\" value=\"Update\" class=\" btnUpdate btn btn-secondary\"></td>"
-							+ "<td><form method=\"post\" action=\"doctor.jsp\">"
-							+ "<input name=\"btnRemove\" type=\"submit\"value=\"Remove\" class=\"btn btn-danger\">"
-							+ "<input name=\"hidDocIDDelete\" type=\"hidden\"value=\"" + id + "\">"
-							+ "</form></td></tr>";
+				output += "<td><input name='btnUpdate' type='button'"
+						+ "value='Update'"
+						+ "class='btnUpdate btn btn-secondary'></td>"
+						+ "<td><input name='btnRemove' type='button'"
+						+ "value='Remove'"
+						+ "class='btnRemove btn btn-danger' data-docid='"
+						+ id + "'>" + "</td></tr>";
 
 				}
 				con.close();
