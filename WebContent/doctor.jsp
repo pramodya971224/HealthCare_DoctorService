@@ -15,8 +15,6 @@
 </head>
 <body>
 
-
-
 	<div class="container">
 		<div class="row">
 		 <div class="col-6">     
@@ -32,34 +30,51 @@
 					Last Name: 
 				    <input id="lname" name="lname" type="text" class="form-control form-control-sm"> 
 					<br> 
+					Date of Birth: 
+					<input id="dob" name="dob" type="text" class="form-control form-control-sm" placeholder="DD-MM-YYYY"> 
+					<br>
+					Age: 
+				    <input id="age" name="age" type="text" class="form-control form-control-sm" readonly> 
+					<br> 
 					Email: 
 				    <input id="docEmail" name="docEmail" type="email" class="form-control form-control-sm" placeholder="example@gmail.com"> 
 				    <br>
+				    
 				    
 				    Gender:<br>
 				    	&nbsp;&nbsp;Male  
 				    	<input type="radio" id="rdoGenderMale" name="rdoGender" value="Male">  
 				    	&nbsp;&nbsp;Female  
 				    	<input type="radio" id="rdoGenderFemale" name="rdoGender" value="Female">   
-				  
+				    
 					<br> <br>
+					
 					Doctor Licen Number: 
-					<input id="licen" name="licen" type="text" class="form-control form-control-sm"> 
+					<input id="licen" name="licen" type="text" class="form-control form-control-sm" placeholder="Dxxxxx"> 
 					<br> 
 					
 					Specialization:    
 					<select id="special" name="special" class="form-control form-control-sm">     
 						<option value="0">--Select Specialization--</option>     
-						<option value="Allergy And Immunology">Allergy And Immunology</option>     
-						<option value="Cardiac Surgeon">Cardiac Surgeon</option>     
-						<option value="Cardiologist">Cardiologist</option>     
-						<option value="Dental Surgeon">Dental Surgeon</option>
+						<option value="Accupuncture">Accupuncture</option>     
+						<option value="Anaesthesiologist">Anaesthesiologist</option>
+						<option value="Allergy Specialist">Allergy Specialist</option>     
+						<option value="Bacteriologist">Bacteriologist</option>     
+						<option value="Cardiologist">Cardiologist</option>
+						<option value="Cardiac Surgeon">Cardiac Surgeon</option>
+						<option value="Counsellor">Counsellor</option>
+						<option value="Dentist">Dentist</option>
 						<option value="Dietician">Dietician</option>
+						<option value="Embryologist">Embryologist</option>
 						<option value="Endocnnologist">Endocnnologist</option>
-						<option value="General Surgeon">General Surgeon</option>
+						<option value="Ent And Neck Surgeon">Ent And Neck Surgeon</option>
+						<option value="General">General</option>
+						<option value="Hepatologists">Hepatologists</option>
+						<option value="Immunologist">Immunologist</option> 
+						<option value="Mycologist">Mycologist</option> 
+						<option value="Neurologist">Neurologist</option>   
 						<option value="Urologist">Urologist</option>
-						<option value="Vascular Surgeon">Vascular Surgeon</option>    
-						
+						  	
 					</select>   
 					
  

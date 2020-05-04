@@ -39,8 +39,8 @@ public class DoctorAPI extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String output = docObj.insertDoctor(request.getParameter("docNic"), request.getParameter("fname"),request.getParameter("lname"),
-				request.getParameter("docEmail"),request.getParameter("rdoGender"),request.getParameter("licen"), request.getParameter("special"),
+		String output = docObj.insertDoctor(request.getParameter("docNic"), request.getParameter("fname"),request.getParameter("lname"),request.getParameter("dob"),
+				request.getParameter("age"), request.getParameter("docEmail"),request.getParameter("rdoGender"),request.getParameter("licen"), request.getParameter("special"),
 				request.getParameter("docPhone"),request.getParameter("docCharge"));
 		
 		response.getWriter().write(output);
@@ -54,7 +54,7 @@ public class DoctorAPI extends HttpServlet {
 		Map paras = getParasMap(request);
 		
 		String output = docObj.updateDoctor(paras.get("hidDocIDSave").toString(), paras.get("docNic").toString(),
-						paras.get("fname").toString(),paras.get("lname").toString(),
+						paras.get("fname").toString(),paras.get("lname").toString(),paras.get("dob").toString(),paras.get("age").toString(),
 						paras.get("docEmail").toString(),paras.get("rdoGender").toString(),
 						paras.get("licen").toString(), paras.get("special").toString(),
 						paras.get("docPhone").toString(),paras.get("docCharge").toString());

@@ -10,7 +10,7 @@ import config.DBConnector;
 
 public class Doctor {
 
-	public String insertDoctor(String nic, String fname, String lname, String email, String gender, String liscen,
+	public String insertDoctor(String nic, String fname, String lname, String Dob, String age, String email, String gender, String liscen,
 			String special, String phone, String charge) {
 		String output = "";
 
@@ -21,8 +21,8 @@ public class Doctor {
 			}
 
 			// create a prepared statement
-			String query = " INSERT INTO doctor(`doc_id`, `doc_nic`, `doc_fname`, `doc_lname`, `doc_email`, `doc_gender`, `liscen_no`, `specialization`, `phone`, `doc_charge`)"
-					+ " VALUES (?,?,?,?,?,?,?,?,?,?)";
+			String query = " INSERT INTO doctor(`doc_id`, `doc_nic`, `doc_fname`, `doc_lname`, `DOB`, `age`, `doc_email`, `doc_gender`, `liscen_no`, `specialization`, `phone`, `doc_charge`)"
+					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 
@@ -31,12 +31,18 @@ public class Doctor {
 			preparedStmt.setString(2, nic);
 			preparedStmt.setString(3, fname);
 			preparedStmt.setString(4, lname);
-			preparedStmt.setString(5, email);
-			preparedStmt.setString(6, gender);
-			preparedStmt.setString(7, liscen);
-			preparedStmt.setString(8, special);
-			preparedStmt.setString(9, phone);
-			preparedStmt.setFloat(10, Float.parseFloat(charge));
+			
+			java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(Dob);
+			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+			preparedStmt.setDate(5, sqlDate);
+			preparedStmt.setInt(6, Integer.parseInt(age));
+			preparedStmt.setString(7, email);
+			preparedStmt.setString(8, gender);
+			preparedStmt.setString(9, liscen);
+			preparedStmt.setString(10, special);
+			preparedStmt.setString(11, phone);
+			preparedStmt.setFloat(12, Float.parseFloat(charge));
 			
 
 			// execute the statement
@@ -55,7 +61,7 @@ public class Doctor {
 		return output;
 	}
 
-	public String updateDoctor(String d_id, String nic, String fname, String lname, String email, String gender, String liscen, String special,  String phone, String charge) 
+	public String updateDoctor(String d_id, String nic, String fname, String lname, String dob, String age, String email, String gender, String liscen, String special,  String phone, String charge) 
 	{   
 		String output = ""; 
 	 
@@ -66,7 +72,7 @@ public class Doctor {
 	        {return "Error while connecting to the database for updating."; } 
 	 
 	        // create a prepared statement    
-	        String updatequery = "UPDATE doctor SET doc_nic =?, doc_fname =?, doc_lname =?, doc_email=?, doc_gender=?, liscen_no=?, specialization=?, phone=?, doc_charge=? WHERE doc_id=?"; 
+	        String updatequery = "UPDATE doctor SET doc_nic =?, doc_fname =?, doc_lname =?, DOB =?, age =?, doc_email=?, doc_gender=?, liscen_no=?, specialization=?, phone=?, doc_charge=? WHERE doc_id=?"; 
 	 
 	        PreparedStatement preparedStmt = con.prepareStatement(updatequery); 
 	 
@@ -75,14 +81,20 @@ public class Doctor {
 	        preparedStmt.setString(1, nic);    
 	        preparedStmt.setString(2, fname);
 	        preparedStmt.setString(3, lname);
-	        preparedStmt.setString(4, email);
-	        preparedStmt.setString(5, gender);
-	        preparedStmt.setString(6, liscen);
-	        preparedStmt.setString(7, special);
-	        preparedStmt.setString(8,phone);
-	        preparedStmt.setDouble(9, Double.parseDouble(charge));
+	        
+	        java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dob);
+			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+			preparedStmt.setDate(4, sqlDate);
+			preparedStmt.setInt(5, Integer.parseInt(age));
+	        preparedStmt.setString(6, email);
+	        preparedStmt.setString(7, gender);
+	        preparedStmt.setString(8, liscen);
+	        preparedStmt.setString(9, special);
+	        preparedStmt.setString(10,phone);
+	        preparedStmt.setDouble(11, Double.parseDouble(charge));
 	       
-	        preparedStmt.setInt(10, Integer.parseInt(d_id));
+	        preparedStmt.setInt(12, Integer.parseInt(d_id));
 	        
 	 
 	        // execute the statement    
@@ -136,7 +148,7 @@ public class Doctor {
 			}
 
 			// Prepare the html table to be displayed
-			output = "<table border='1'><tr><th>D_NIC</th><th>D_fname</th><th>D_lanme</th><th>D_email</th><th>D_gender</th><th>Liscen_No</th><th>D_specialization</th><th>D_phone</th><th>D_charge</th><th>Update</th><th>Remove</th></tr>";
+			output = "<table border='1'><tr><th>D_NIC</th><th>D_fname</th><th>D_lanme</th><th>Date_Of_Birth</th><th>Age</th><th>D_email</th><th>D_gender</th><th>Liscen_No</th><th>D_specialization</th><th>D_phone</th><th>D_charge</th><th>Update</th><th>Remove</th></tr>";
 
 			String query = "SELECT * FROM doctor";
 			Statement stmt = con.createStatement();
@@ -148,12 +160,16 @@ public class Doctor {
 				String nic = rs.getString("doc_nic");
 				String fname = rs.getString("doc_fname");
 				String lname = rs.getString("doc_lname");
+				String dob = rs.getString("DOB");
+				String age = Integer.toString(rs.getInt("age"));
 				String email = rs.getString("doc_email");
 				String gender = rs.getString("doc_gender");
 				String liscen = rs.getString("liscen_No");
 				String special = rs.getString("specialization");
 				String phone = rs.getString("phone");
 				String charge = Double.toString(rs.getDouble("doc_charge"));
+				special = special.replace('+', ' ');
+				email = email.replaceAll("%40", "@");
 				
 
 				// Add into the html table
@@ -161,6 +177,8 @@ public class Doctor {
 						+ "value='" + id + "'>" + nic + "</td>";
 				output += "<td>" + fname + "</td>";
 				output += "<td>" + lname + "</td>";
+				output += "<td>" + dob + "</td>";
+				output += "<td>" + age + "</td>";
 				output += "<td>" + email + "</td>";
 				output += "<td>" + gender + "</td>";
 				output += "<td>" + liscen + "</td>";
